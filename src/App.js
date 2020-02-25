@@ -46,10 +46,6 @@ function App() {
 
       <input type="text" onChange={(e) => onSearchChange(e)} />
 
-      <div className='listOfCategory'>
-        {films}
-      </div>
-
       <ul>
         {
           data.filter(isSearched(search)).map(item => (
