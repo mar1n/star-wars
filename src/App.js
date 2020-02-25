@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+const DEFAULT_QUERY = '';
+
+const PATH_BASE = 'https://swapi.co/api/';
+const PATH_SEARCH = '?search=';
+const mainUrl = 'https://swapi.co/api/people/?search=r2';
+
 function App() {
   const [films, setFilms] = useState('');
   const [people, setPeople] = useState('');
@@ -12,24 +18,12 @@ function App() {
   const [category, setCategory] = useState('');
 
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState(DEFAULT_QUERY);
   const [error, setError] = useState([]);
-  // useEffect(() => {
-  //   fetch(`https://swapi.co/api/films/`)
-  //     .then(res => res.json())
-  //     .then((result) => {
-  //       setData(result)
-  //     },
-  //       (error) => {
-  //         setError(error)
-  //       }
-  //     );
-
-
-  // }, []);
 
   const insertFilms = (value) => {
     const category = value;
-    fetch(`https://swapi.co/api/${category}/`)
+    fetch(`${PATH_BASE}${category}${PATH_SEARCH}${DEFAULT_QUERY}`)
       .then(res => res.json())
       .then((result) => {
         setData(result.results)
@@ -38,6 +32,10 @@ function App() {
           setError(error)
         }
       );
+  }
+
+  const setSearchName = (result) => {
+      setData({result});
   }
 
   return (
