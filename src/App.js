@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Posts from './components/Posts';
+import Pagination from './components/Paginations';
 import './App.css';
 
 const DEFAULT_QUERY = '';
@@ -12,6 +14,10 @@ const isSearched = searchTerm => item =>
 
 function App() {
   const [data, setData] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
   const [search, setSearch] = useState(DEFAULT_QUERY);
   const [error, setError] = useState([]);
 
@@ -56,6 +62,7 @@ function App() {
       // let's log out our new people array
       // console.log(people);
       setData(people);
+      setPosts(people);
     }
     
     console.time("Time my API call");
@@ -71,6 +78,12 @@ function App() {
     setSearch(value.target.value);
   }
 
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <>
       <button onClick={() => insertFilms('films')} className='category'>films</button>
@@ -82,6 +95,21 @@ function App() {
 
       <input type="text" onChange={(e) => onSearchChange(e)} />
 
+      <div className='container mt-5'>
+      <h1 className='text-primary mb-3'>My Blog</h1>
+      {/* <Posts posts={currentPosts} loading={loading} /> */}
+      <ul className="list-group mb-4">
+            {
+                currentPosts.filter(isSearched(search)).map(post => (
+                    <li key={post.id} className="list-group-item">
+                        {post.name}
+                    </li>
+                ))
+            }
+        </ul>
+        {console.log(data)}
+      <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate} />
+    </div>
       <ul>
         {
           data.filter(isSearched(search)).map(item => (
