@@ -9,7 +9,7 @@ import './App.css';
 function App() {
   const [data, setData] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
   const [search, setSearch] = useState('');
@@ -39,13 +39,14 @@ function App() {
           });
           // increment the page with 1 on each loop
           page++;
+          setLoading(false);
         } catch (err) {
           console.error(`Oeps, something is wrong ${err}`);
         }
         // keep running until there's no next page
       } while (lastResult.next !== null);
       // let's log out our new people array
-      // console.log(people);
+      setLoading(true);
       setData(people);
       setPosts(people);
     }

@@ -5,7 +5,7 @@ const isSearched = searchTerm => item =>
   item.name.toLowerCase().includes(searchTerm.toLowerCase());
 
 export default function Posts({ list, pattern, loading }) {
-    if(loading) {
+    if(!loading) {
         return <h2>Loading...</h2>
     }
     return (
