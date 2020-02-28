@@ -62,6 +62,7 @@ function App() {
 
   const onSearchChange = (value) => {
     setSearch(value.target.value);
+    setPosts(data.filter(x => x.name.toLowerCase().includes(value.target.value.toLowerCase())));
   }
 
   const indexOfLastPost = currentPage * postsPerPage;
@@ -72,6 +73,8 @@ function App() {
 
   return (
     <>
+    {console.log(posts)}
+    {console.log(search)}
       <Router>
         <button onClick={() => insertFilms('films')} className='category'>films</button>
         <button onClick={() => insertFilms('people')} className='category'>people</button>
