@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Posts from './components/Posts';
 import Pagination from './components/Paginations';
+import Search from './components/Search';
+import Posts from './components/Posts';
 import './App.css';
-
-const DEFAULT_QUERY = '';
-
-const PATH_BASE = 'https://swapi.co/api/';
-const PATH_SEARCH = '/?search=';
-const PARAM_PAGE = 'page='
-
-const isSearched = searchTerm => item =>
-  item.name.toLowerCase().includes(searchTerm.toLowerCase());
 
 function App() {
   const [data, setData] = useState([]);
@@ -18,20 +11,11 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
-  const [search, setSearch] = useState(DEFAULT_QUERY);
+  const [search, setSearch] = useState('');
   const [error, setError] = useState([]);
 
   const insertFilms = (value) => {
     const category = value;
-    // fetch(`${PATH_BASE}${category}${PATH_SEARCH}${search}&${PARAM_PAGE}4`)
-    //   .then(res => res.json())
-    //   .then((result) => {
-    //     setSearchName(result.results)
-    //   },
-    //     (error) => {
-    //       setError(error)
-    //     }
-    //   );
     async function getPages() {
       // set some variables
       const baseUrl = `https://swapi.co/api/${category}/?format=json&page=`;
@@ -93,43 +77,20 @@ function App() {
       <button onClick={() => insertFilms('starships')} className='category'>starship</button>
       <button onClick={() => insertFilms('vehicles')} className='category'>vehicles</button>
 
-      <input type="text" onChange={(e) => onSearchChange(e)} />
-
+      <Search value={search} onChange={(e) => onSearchChange(e)} />
       <div className='container mt-5'>
       <h1 className='text-primary mb-3'>My Blog</h1>
-      {/* <Posts posts={currentPosts} loading={loading} /> */}
-      <ul className="list-group mb-4">
-            {
-                currentPosts.filter(isSearched(search)).map(post => (
-                    <li key={post.id} className="list-group-item">
-                        {post.name}
-                    </li>
-                ))
-            }
-        </ul>
-        {console.log(data)}
-      <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate} />
+        <Posts
+          list={currentPosts}
+          pattern={search}
+          loading={loading}
+        />
+      <Pagination
+          postsPerPage={postsPerPage}
+          totalPosts={posts.length}
+          paginate={paginate}
+        />
     </div>
-      <ul>
-        {
-          data.filter(isSearched(search)).map(item => (
-            <li key={item.episode_id}>
-              <p>{item.name}</p>
-              <p>{item.opening_crawl}</p>
-              <p>{item.director}</p>
-              <p>{item.release_date}</p>
-              <p>{item.characters}</p>
-              <p>{item.planets}</p>
-              <p>{item.starships}</p>
-              <p>{item.vehicles}</p>
-              <p>{item.species}</p>
-              <p>{item.created}</p>
-              <p>{item.edited}</p>
-              <p>{item.url}</p>
-            </li>
-          ))
-        }
-      </ul>
     </>
   );
 }
