@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Posts from './components/Posts';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Pagination from './components/Paginations';
 import Search from './components/Search';
 import Posts from './components/Posts';
+import Post from './components/Post';
 import './App.css';
 
 function App() {
@@ -48,7 +49,7 @@ function App() {
       setData(people);
       setPosts(people);
     }
-    
+
     console.time("Time my API call");
     getPages();
     console.timeEnd("Time my API call");
@@ -70,27 +71,31 @@ function App() {
 
   return (
     <>
-      <button onClick={() => insertFilms('films')} className='category'>films</button>
-      <button onClick={() => insertFilms('people')} className='category'>people</button>
-      <button onClick={() => insertFilms('planets')} className='category'>planets</button>
-      <button onClick={() => insertFilms('species')} className='category'>species</button>
-      <button onClick={() => insertFilms('starships')} className='category'>starship</button>
-      <button onClick={() => insertFilms('vehicles')} className='category'>vehicles</button>
+      <Router>
+        <button onClick={() => insertFilms('films')} className='category'>films</button>
+        <button onClick={() => insertFilms('people')} className='category'>people</button>
+        <button onClick={() => insertFilms('planets')} className='category'>planets</button>
+        <button onClick={() => insertFilms('species')} className='category'>species</button>
+        <button onClick={() => insertFilms('starships')} className='category'>starship</button>
+        <button onClick={() => insertFilms('vehicles')} className='category'>vehicles</button>
 
-      <Search value={search} onChange={(e) => onSearchChange(e)} />
-      <div className='container mt-5'>
-      <h1 className='text-primary mb-3'>My Blog</h1>
-        <Posts
-          list={currentPosts}
-          pattern={search}
-          loading={loading}
-        />
-      <Pagination
-          postsPerPage={postsPerPage}
-          totalPosts={posts.length}
-          paginate={paginate}
-        />
-    </div>
+        <Search value={search} onChange={(e) => onSearchChange(e)} />
+        <div >
+          <Posts
+            list={currentPosts}
+            pattern={search}
+            loading={loading}
+          />
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={posts.length}
+            paginate={paginate}
+          />
+        </div>
+        <Switch>
+          <Route exact path="/post/:id" component={Post} />
+        </Switch>
+      </Router>
     </>
   );
 }
