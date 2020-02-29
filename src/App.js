@@ -73,8 +73,6 @@ function App() {
 
   return (
     <>
-    {console.log(posts)}
-    {console.log(search)}
       <Router>
         <button onClick={() => insertFilms('films')} className='category'>films</button>
         <button onClick={() => insertFilms('people')} className='category'>people</button>
