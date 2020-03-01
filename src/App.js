@@ -19,36 +19,15 @@ function App() {
     const category = value;
     async function getPages() {
       // set some variables
-      const baseUrl = `https://swapi.co/api/${category}/?format=json&page=`;
-      let page = 1;
-      // create empty array where we want to store the people objects for each loop
-      let people = [];
-      // create a lastResult array which is going to be used to check if there is a next page
-      let lastResult = [];
-      do {
-        // try catch to catch any errors in the async api call
-        try {
-          // use node-fetch to make api call
-          const resp = await fetch(`${baseUrl}${page}`);
-          const data = await resp.json();
-          lastResult = data;
-          data.results.forEach(person => {
-            // destructure the person object and add to array
-            const { name, height, films } = person;
-            people.push({ name, height, films });
-          });
-          // increment the page with 1 on each loop
-          page++;
-          setLoading(false);
-        } catch (err) {
-          console.error(`Oeps, something is wrong ${err}`);
-        }
-        // keep running until there's no next page
-      } while (lastResult.next !== null);
+      fetch('/repos')
+        .then(response => response.json())
+        .then(characters => {
+            console.log('the list of characters is' + characters)
+            setData(characters);
+            setPosts(characters);
+        })
       // let's log out our new people array
       setLoading(true);
-      setData(people);
-      setPosts(people);
     }
 
     console.time("Time my API call");
