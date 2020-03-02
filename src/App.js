@@ -14,14 +14,16 @@ import Home from './components/home/Home';
 import './App.css';
 
 function App() {
-  
+
 
   return (
     <>
       <Router>
-      <Link to={`/peoples`}>People</Link>
-        <Link to={`/planets`}>Planets</Link>
-        <Link to={`/starships`}>Starship</Link>
+        <nav>
+          <Link to={`/peoples`}>People</Link>
+          <Link to={`/planets`}>Planets</Link>
+          <Link to={`/starships`}>Starship</Link>
+        </nav>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/peoples" component={Peoples} />
@@ -30,7 +32,7 @@ function App() {
           <Route exact path="/planets/:id" component={Planet} />
           <Route exact path="/starships" component={Starships} />
           <Route exact path="/starships/:id" component={Starship} />
-          
+
         </Switch>
       </Router>
     </>
