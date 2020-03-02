@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 const isSearched = searchTerm => item =>
   item.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -10,6 +10,7 @@ export default function Posts({ list, pattern, loading }) {
     }
     return (
         <>
+        <Link to={'/post/1'}>Link</Link>
             <ul className="list-group mb-4">
                 {
                     list.filter(isSearched(pattern)).map((post, index) => (
