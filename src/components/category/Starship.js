@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router';
 
-export default function Post({ match }) {
+export default function Starship({ match }) {
 
     const { id } = useParams();
     const [post, setPost] = useState([]);
@@ -15,7 +15,7 @@ export default function Post({ match }) {
     }
 
     useEffect(() => {
-        fetch(`https://swapi.co/api/people/${id}/?format=json`)
+        fetch(`https://swapi.co/api/starships/${id}/`)
             .then(res => res.json())
             .then((result) => {
                 setPost(result)
@@ -27,6 +27,7 @@ export default function Post({ match }) {
     }, []);
     return (
         <>
+        <h1>Starship</h1>
             <div>
                 {post.name}
             </div>

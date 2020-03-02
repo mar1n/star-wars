@@ -1,62 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import Pagination from '../pagination/Paginations';
-import Search from '../search/Search';
-import Posts from '../posts/Posts';
+import { useParams, useLocation, useHistory } from 'react-router';
 
-export default function People() {
-    const [data, setData] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(10);
-  const [search, setSearch] = useState('');
+export default function People({ match }) {
 
-  useEffect(() => {
-    async function getPages() {
-        setLoading(false);
-        fetch(`/repos/people`)
-          .then(response => response.json())
-          .then(characters => {
-              setData(characters);
-              setPosts(characters);
-              setLoading(true);
-          })
-      }
-  
-      console.time("Time my API call");
-      getPages();
-      console.timeEnd("Time my API call");
-  }, [])
+    const { id } = useParams();
+    const [post, setPost] = useState([]);
+    const [error, setError] = useState([]);
+    const location = useLocation();
+    const history = useHistory();
+    console.log(location);
 
-  const setSearchName = (result) => {
-    setData(result);
-  }
+    function goBackHandle() {
+        history.goBack();
+    }
 
-  const onSearchChange = (value) => {
-    setSearch(value.target.value);
-    setPosts(data.filter(x => x.name.toLowerCase().includes(value.target.value.toLowerCase())));
-  }
-
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    useEffect(() => {
+        fetch(`https://swapi.co/api/people/${id}/`)
+            .then(res => res.json())
+            .then((result) => {
+                setPost(result)
+            },
+                (error) => {
+                    setError(error)
+                }
+            );
+    }, []);
     return (
         <>
-            <Search value={search} onChange={(e) => onSearchChange(e)} />
-            <div >
-                <Posts
-                    list={currentPosts}
-                    pattern={search}
-                    loading={loading}
-                />
-                <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={posts.length}
-                    paginate={paginate}
-                />
+            <div>
+                {post.name}
             </div>
+            <div>Location = {location.pathname}</div>
+            
+            <button onClick={goBackHandle}>Go Back</button>
         </>
-    );
+    )
 }
