@@ -13,19 +13,19 @@ export default function Planets() {
 
   useEffect(() => {
     async function getPages() {
-        setLoading(false);
-        fetch(`/repos/planets`)
-          .then(response => response.json())
-          .then(characters => {
-              setData(characters);
-              setPosts(characters);
-              setLoading(true);
-          })
-      }
-  
-      console.time("Time my API call");
-      getPages();
-      console.timeEnd("Time my API call");
+      setLoading(false);
+      fetch(`/repos/planets`)
+        .then(response => response.json())
+        .then(planets => {
+          setData(planets);
+          setPosts(planets);
+          setLoading(true);
+        })
+    }
+
+    console.time("Time my API call");
+    getPages();
+    console.timeEnd("Time my API call");
   }, [])
 
   const setSearchName = (result) => {
@@ -42,21 +42,21 @@ export default function Planets() {
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-    return (
-        <>
-            <Search value={search} onChange={(e) => onSearchChange(e)} />
-            <div >
-                <Posts
-                    list={currentPosts}
-                    pattern={search}
-                    loading={loading}
-                />
-                <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={posts.length}
-                    paginate={paginate}
-                />
-            </div>
-        </>
-    );
+  return (
+    <>
+      <Search value={search} onChange={(e) => onSearchChange(e)} />
+      <div >
+        <Posts
+          list={currentPosts}
+          pattern={search}
+          loading={loading}
+        />
+        <Pagination
+          postsPerPage={postsPerPage}
+          totalPosts={posts.length}
+          paginate={paginate}
+        />
+      </div>
+    </>
+  );
 }

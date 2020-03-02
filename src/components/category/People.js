@@ -30,8 +30,7 @@ export default function People({ match }) {
             <div>
                 {post.name}
             </div>
-            <div>Location = {location.pathname}</div>
-            
+
             <button onClick={goBackHandle}>Go Back</button>
         </>
     )

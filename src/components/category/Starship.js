@@ -27,12 +27,11 @@ export default function Starship({ match }) {
     }, []);
     return (
         <>
-        <h1>Starship</h1>
+            <h1>Starship</h1>
             <div>
                 {post.name}
             </div>
-            <div>Location = {location.pathname}</div>
-            
+
             <button onClick={goBackHandle}>Go Back</button>
         </>
     )

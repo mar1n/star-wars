@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link, match } from 'react-router-dom';
-import Pagination from './components/pagination/Paginations';
-import Search from './components/search/Search';
-import Posts from './components/posts/Posts';
 import Peoples from './components/category/Peoples';
 import People from './components/category/People';
 import Planets from './components/category/Planets';
 import Planet from './components/category/Planet';
 import Starships from './components/category/Starships';
 import Starship from './components/category/Starship';
-import Post from './components/post/Post';
 import Home from './components/home/Home';
 import './App.css';
 

@@ -21,7 +21,7 @@ export default function Posts({ list, pattern, loading, match }) {
                         </li>
                             <li>{index}</li>
                             <li>
-                                <Link to={`${location.pathname}/${index}`} >{post.name}</Link>
+                                <Link to={`${location.pathname}/${index + 1}`} >{post.name}</Link>
                             </li>
                         </>
                     ))

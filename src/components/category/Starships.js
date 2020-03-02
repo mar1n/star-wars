@@ -5,43 +5,43 @@ import Posts from '../posts/Posts';
 
 export default function Starships() {
     const [data, setData] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(10);
-  const [search, setSearch] = useState('');
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(10);
+    const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    async function getPages() {
-        setLoading(false);
-        fetch(`/repos/starships`)
-          .then(response => response.json())
-          .then(characters => {
-              setData(characters);
-              setPosts(characters);
-              setLoading(true);
-          })
-      }
-  
-      console.time("Time my API call");
-      getPages();
-      console.timeEnd("Time my API call");
-  }, [])
+    useEffect(() => {
+        async function getPages() {
+            setLoading(false);
+            fetch(`/repos/starships`)
+                .then(response => response.json())
+                .then(starships => {
+                    setData(starships);
+                    setPosts(starships);
+                    setLoading(true);
+                })
+        }
 
-  const setSearchName = (result) => {
-    setData(result);
-  }
+        console.time("Time my API call");
+        getPages();
+        console.timeEnd("Time my API call");
+    }, [])
 
-  const onSearchChange = (value) => {
-    setSearch(value.target.value);
-    setPosts(data.filter(x => x.name.toLowerCase().includes(value.target.value.toLowerCase())));
-  }
+    const setSearchName = (result) => {
+        setData(result);
+    }
 
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+    const onSearchChange = (value) => {
+        setSearch(value.target.value);
+        setPosts(data.filter(x => x.name.toLowerCase().includes(value.target.value.toLowerCase())));
+    }
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
     return (
         <>
             <Search value={search} onChange={(e) => onSearchChange(e)} />
