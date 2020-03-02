@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Pagination from './components/Paginations';
 import Search from './components/Search';
@@ -13,21 +13,18 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
   const [search, setSearch] = useState('');
-  const [error, setError] = useState([]);
 
   const insertFilms = (value) => {
     const category = value;
     async function getPages() {
-      // set some variables
+      setLoading(false);
       fetch('/repos')
         .then(response => response.json())
         .then(characters => {
-            console.log('the list of characters is' + characters)
-            setData(characters);
-            setPosts(characters);
+          setData(characters);
+          setPosts(characters);
+          setLoading(true);
         })
-      // let's log out our new people array
-      setLoading(true);
     }
 
     console.time("Time my API call");
@@ -53,13 +50,14 @@ function App() {
   return (
     <>
       <Router>
-        <button onClick={() => insertFilms('films')} className='category'>films</button>
-        <button onClick={() => insertFilms('people')} className='category'>people</button>
-        <button onClick={() => insertFilms('planets')} className='category'>planets</button>
-        <button onClick={() => insertFilms('species')} className='category'>species</button>
-        <button onClick={() => insertFilms('starships')} className='category'>starship</button>
-        <button onClick={() => insertFilms('vehicles')} className='category'>vehicles</button>
-
+        <nav>
+          <button onClick={() => insertFilms('films')} className='category'>films</button>
+          <button onClick={() => insertFilms('people')} className='category'>people</button>
+          <button onClick={() => insertFilms('planets')} className='category'>planets</button>
+          <button onClick={() => insertFilms('species')} className='category'>species</button>
+          <button onClick={() => insertFilms('starships')} className='category'>starship</button>
+          <button onClick={() => insertFilms('vehicles')} className='category'>vehicles</button>
+        </nav>
         <Search value={search} onChange={(e) => onSearchChange(e)} />
         <div >
           <Posts

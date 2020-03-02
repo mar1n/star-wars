@@ -1,13 +1,18 @@
 import React from 'react';
-
+import './Search.css';
 export default function Search({ value, onChange }) {
-    return(
+    return (
         <>
-            <input
-                type="text"
-                value={value}
-                onChange={onChange}
-            />
+            <div className='search'>
+                <label>
+                    Search
+            </label>
+                <input
+                    type="text"
+                    value={value}
+                    onChange={onChange}
+                />
+            </div>
         </>
     );
 }
