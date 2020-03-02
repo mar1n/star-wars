@@ -8,17 +8,16 @@ const app = express();
 var cache = {}
 
 var midWare = (req, res, next) => {
-  const username = 'all';
-  if (cache[username]) {
-    res.send(cache[username])
+  const { category } = req.params;
+  if (cache[category]) {
+    res.send(cache[category])
   } else {
     next()
   }
 }
 
 async function getRepos(req, res, next) {
-
-  const username = 'all';
+  const { category } = req.params;
 
   let page = 1;
 
@@ -32,7 +31,7 @@ async function getRepos(req, res, next) {
 
       try {
 
-        const resp = await fetch(`https://swapi.co/api/people/?format=json&page=${page}`);
+        const resp = await fetch(`https://swapi.co/api/${category}/?format=json&page=${page}`);
         const data = await resp.json();
         lastResult = data;
 
@@ -50,7 +49,7 @@ async function getRepos(req, res, next) {
 
     } while (lastResult.next !== null);
 
-    cache[username] = people;
+    cache[category] = people;
 
     res.send(people);
   } catch (err) {
@@ -58,7 +57,7 @@ async function getRepos(req, res, next) {
       res.status(500);
   }
 }
-app.get('/repos', midWare, getRepos);
+app.get('/repos/:category', midWare, getRepos);
 
 app.listen(5000, () => {
   console.log(`App listening on port ${PORT}`);

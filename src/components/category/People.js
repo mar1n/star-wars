@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import Pagination from '../pagination/Paginations';
 import Search from '../search/Search';
 import Posts from '../posts/Posts';
 
-export default function Home() {
+export default function People() {
     const [data, setData] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,23 +11,22 @@ export default function Home() {
   const [postsPerPage] = useState(10);
   const [search, setSearch] = useState('');
 
-  const insertFilms = (value) => {
-    const category = value;
+  useEffect(() => {
     async function getPages() {
-      setLoading(false);
-      fetch(`/repos/${category}`)
-        .then(response => response.json())
-        .then(characters => {
-            setData(characters);
-            setPosts(characters);
-            setLoading(true);
-        })
-    }
-
-    console.time("Time my API call");
-    getPages();
-    console.timeEnd("Time my API call");
-  }
+        setLoading(false);
+        fetch(`/repos/people`)
+          .then(response => response.json())
+          .then(characters => {
+              setData(characters);
+              setPosts(characters);
+              setLoading(true);
+          })
+      }
+  
+      console.time("Time my API call");
+      getPages();
+      console.timeEnd("Time my API call");
+  }, [])
 
   const setSearchName = (result) => {
     setData(result);
@@ -46,17 +44,6 @@ export default function Home() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
     return (
         <>
-        {/* <Link to={`${match.url}/people`}>People</Link>
-        <Link to={`${match.url}/planets`}>Planets</Link>
-        <Link to={`${match.url}/starship`}>Starship</Link> */}
-        <nav>
-        <button onClick={() => insertFilms('films')} className='category'>films</button>
-        <button onClick={() => insertFilms('people')} className='category'>people</button>
-        <button onClick={() => insertFilms('planets')} className='category'>planets</button>
-        <button onClick={() => insertFilms('species')} className='category'>species</button>
-        <button onClick={() => insertFilms('starships')} className='category'>starship</button>
-        <button onClick={() => insertFilms('vehicles')} className='category'>vehicles</button>
-        </nav>
             <Search value={search} onChange={(e) => onSearchChange(e)} />
             <div >
                 <Posts
